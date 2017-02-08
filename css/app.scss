@@ -1,0 +1,131 @@
+body {
+
+}
+
+body {
+  background: rgb(244, 244, 244);
+}
+
+a {
+  &:hover, &:focus {
+    text-decoration: none;
+  }
+}
+
+.ey-header {
+  height: 180px;
+  background: #212425
+}
+
+.ey-game-yc {
+  margin-bottom: 20px;
+  padding: 20px 0;
+  border-bottom: 1px solid #D6D6D6;
+  box-shadow: 0 2px 2px #ECEBEB;
+  .list-group {
+    .col-md-3 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    a {
+      border: 1px solid #D6D6D6;
+      text-align: center;
+      padding: 10px 15px;
+      line-height: 30px;
+      background: #71A8E5;
+      color: #fff;
+      display: inline-block;
+      &:hover, &.active, &:hover {
+        background: #FF6C00;
+      }
+    }
+  }
+}
+
+.data-panel {
+  .col-md-8 {
+    background: #FFFFFF;
+    border: 1px solid #E4E4E4;
+    clear: none;
+    overflow: hidden;
+  }
+  .col-md-4 {
+    overflow: hidden;
+  }
+  .data-header {
+    margin-bottom: 30px;
+    background: #FAFAFA;
+    margin: 0 -15px;
+    margin-top: -20px;
+    min-height: 60px;
+    line-height: 30px;
+    padding: 15px;
+  }
+  .table {
+    margin-top: 20px;
+    text-align: center;
+  }
+}
+
+#pre th, #pre td {
+  height: 50px;
+  border: 1px solid #E4E4E4;
+  text-align: center;
+  line-height: 50px;
+}
+
+.blue {
+  width: 26px;
+  height: 26px;
+  line-height: 26px;
+  font-size: 16px;
+  color: #FFFFFF;
+  background: #71A8E5;
+  border-radius: 50%;
+  display: inline-block;
+  text-align: center;
+}
+
+.red {
+  width: 33px;
+  height: 33px;
+  line-height: 33px;
+  font-size: 18px;
+  color: #FFFFFF;
+  background: #E34040;
+  border-radius: 50%;
+  display: inline-block;
+  text-align: center;
+}
+
+.btn, .btn-lg {
+  border-radius: 0;
+}
+
+.left-panel {
+  padding: 0 15px;
+  .data-header {
+    margin: 0;
+  }
+  .data-msg {
+    border: 1px solid #ddd;
+    .text-msg {
+      padding: 15px;
+    }
+  }
+  .ey-top-btns {
+    text-align: center;
+    border-bottom: 1px solid #E5E5E5;
+    padding: 10px;
+  }
+  .text-msg {
+    text-align: left;
+    margin-bottom: 10px;
+  }
+}
+
+.data-png {
+  padding: 20px;
+  background: #fff;
+  margin-top: 30px;
+}

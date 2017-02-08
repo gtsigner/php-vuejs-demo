@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="http://www.pc28yc.com/pics/favicon.png" type="image/png">
+    <title>预测专区</title>
+    <meta name="viewport"
+          content="width=500, user-scalable=no">
+    <meta name="description"
+          content="专注于PC蛋蛋幸运28预测、统计、分析 - 独立随机事件规律研究预测试验，提供专业的PC蛋蛋预测,幸运28预测,实时开奖,在线预测,统计分析,走势图,模式测试,交流论坛">
+    <meta name="keywords" content="聚云测,PC蛋蛋预测,幸运28预测,实时开奖,在线预测,统计分析,走势图,模式测试,交流论坛">
+    <meta name="author" content="聚云测,PC28YC.com">
+    <meta name="robots" content="all">
+    <script src="http://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js"></script>
+    <script src="./bower_components/layer/build/mobile/layer.js"></script>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./bower_components/layer/build/mobile/need/layer.css">
+    <link rel="stylesheet" href="./css/app.css">
+    <script src="./bower_components/vue/dist/vue.min.js"></script>
+    <style>
+        body {
+            font-family: "Microsoft YaHei", "微软雅黑";
+            font-size: 15px;
+        }
+
+        #menu {
+            text-align: center;
+            padding-top: 10px;
+        }
+
+        .yc_reault {
+            font-size: 20px;
+            color: BlueViolet
+        }
+
+        .my-issue {
+            height: 50px;
+            border: 1px solid #E4E4E4;
+            font-size: 18px;
+            color: #c40000;
+        }
+
+        @media screen and (max-width: 501px) {
+            body {
+            }
+
+            #menu {
+            }
+        }
+    </style>
+</head>
+<body>
+
+<script src="js/jquery-1.8.3.min.js"></script>
+<script src="js/highcharts.js"></script>
+
+
+<div class="main" id="my-app">
+
+
+    <div class="container">
+        <div class="row" style="background:#FFFFFF;">
+            <div id="menu" style="margin:auto;height:85px;font-size:17px;">
+                <a href="http://www.dange.la/" target="_blank" style="padding:0;height:85px;">
+                    <img
+                            style="height: 60px;" src="picture/logo.png"></a>
+            </div>
+        </div>
+
+        <div class="ey-game-yc row">
+            <div class="list-group">
+                <div class="col-md-2 col-xs-4" v-for="vo in ms_group">
+                    <a :class="{ active:ms==vo.key}" href="#" v-html="vo.title" @click="setMs(vo.key)"></a></div>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 20px;margin-top: -30px;">
+            <div class="data-png">
+                <div id="data" style="margin:auto;height:300px;"></div>
+            </div>
+        </div>
+        <div class="hidden-md hidden-lg left-panel" style="padding: 15px;">
+            <div class="data-msg">
+                <div class="ey-top-btns">
+                    <a class="btn btn-lg btn-danger" @click="setKind(2)" target="_blank">加拿大28预测</a>
+                    <a class="btn btn-lg btn-info" @click="setKind(1)" target="_blank">幸运28预测</a>
+                </div>
+            </div>
+        </div>
+        <div class="row data-panel">
+            <div class="col-md-8">
+                <div class="data-header" style="margin: 0px -15px;height: 80px;">
+                    <div class="col-xs-4">
+                        <h1 v-html="title" style="line-height: 30px;margin-top: 10px;font-size: 20px;"></h1>
+                    </div>
+                    <div class="col-xs-8">
+                        <ul class="list-group list-inline pull-right">
+                            <li v-for="vo in ms_group[ms].methods">
+                                <a @click="setSF(vo.id)"
+                                   class="list-group-item" :class="{active:sf==vo.id}"
+                                   v-html="vo.title"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <table class="table table-bordered" id="pre">
+                    <thead>
+                    <tr>
+                        <th>期号</th>
+                        <th>开奖</th>
+                        <th>预测</th>
+                        <th>结果</th>
+                    </tr>
+                    </thead>
+                    <tr v-for="vo in data_list">
+                        <td class="my-issue" v-html="vo.issue"></td>
+                        <td v-if="vo.yc" v-html="vo.yc">--- 开奖请手动刷新 ---</td>
+                        <td v-if="!vo.yc">
+                            <span class='blue' v-html="vo.one"></span> +
+                            <span class='blue' v-html="vo.two"></span> +
+                            <span class='blue' v-html="vo.three"></span> =
+                            <span class='red' v-html="vo.code"></span></td>
+                        <td class="yc_reault" v-html="vo.yc_code_msg"></td>
+                        <td v-if="!vo.yc">
+                            <img v-if="vo.result_yc==1" src='picture/dc_1.png'>
+                            <img v-if="vo.result_yc==0" src='picture/dc_0.png'>
+                        </td>
+                        <td v-if="vo.yc">
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-4 hidden-xs left-panel" style="padding: 15px;">
+                <div class="data-msg">
+                    <div class="ey-top-btns">
+                        <a class="btn btn-lg btn-danger" @click="setKind(2)" target="_blank">加拿大28预测</a>
+                        <a class="btn btn-lg btn-info" @click="setKind(1)" target="_blank">pc蛋蛋预测</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+    (function () {
+        var formType = 1;//加拿大1:28:2
+
+        var Home = {
+            api_groups: {
+                1: {title: "pc蛋蛋预测", name: "pc28"},
+                2: {title: "加拿大28预测", name: "jnd28"}
+            },
+            result_methods: {
+                checkBigSmall: function (code) {
+                    if (code < 13) {
+                        return "小";//小
+                    } else {
+                        return "大";//大
+                    }
+                },
+                checkDanShuang: function (code) {
+                    if (code % 2 == 0) {
+                        return "双";
+                    } else {
+                        return "单";
+                    }
+                },
+                shaArr: function (code) {
+                    code = parseInt(code);
+                    var res = "杀";
+                    if (code <= 13) {
+                        res += "小";//小
+                    } else {
+                        res += "大";//大
+                    }
+
+                    if (code % 2 == 0) {
+                        res += "双";
+                    } else {
+                        res += "单";
+                    }
+                    return res;
+                },
+                shaArr_v2: function (code) {
+                    code = parseInt(code);
+                    var res = "杀";
+                    if (code <= 13) {
+                        res += "大";//小
+                    } else {
+                        res += "小";//大
+                    }
+
+                    if (code % 2 == 0) {
+                        res += "单";
+                    } else {
+                        res += "双";
+                    }
+                    return res;
+                },
+                shaW: function (code) {
+                    return "杀" + code;
+                },
+//                yuBack: function (code) {
+//                    if (code === 0) {
+//                        return "余1|余2";
+//                    } else if (code === 1) {
+//                        return "余0|余2";
+//                    } else if (code === 2) {
+//                        return "余1|余0";
+//                    }
+//                }
+                yuBack: function (code) {
+                    return "3余去" + code;
+                }
+            },
+            check_result: {
+                //v1 yc,v2真实,real1,yc_code
+                //预测组
+                yucezu: function (v1, v2, real1, real2) {
+
+                    var arr_1 = v1.split("|");
+                    var arr_2 = v2.split("|");
+                    var ret = 0;
+                    arr_1.forEach(function (item) {
+                        if (v2.indexOf(item)) {
+                            ret = 1;
+                        }
+                    });
+
+                    return ret;
+                },
+                shazu: function (v1, v2, real1, real2) {
+                    console.log(v1 + v2 + real1);
+                    if (v1.indexOf(v2) >= 0) {
+                        return 0;
+                    } else {
+                        return 1;
+                    }
+                },
+                shawei: function (v1, v2, real1, real2) {
+                    var w = parseInt(real1.toString().substr(real1.toString().length - 1, 1));
+                    if (v1.indexOf(w) >= 0) {
+                        return 0;
+                    } else {
+                        return 1;
+                    }
+                }
+                ,
+                sanyu: function (v1, v2, real1, real2) {
+                    var w = real1 % 3;
+                    if (v1.indexOf(w) >= 0) {
+                        return 0;
+                    } else {
+                        return 1;
+                    }
+                }
+                ,
+                real_check: function (v1, v2, real1, real2) {
+                    if (v1.indexOf(v2) >= 0) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                }
+            },
+            ms: [
+                {
+                    id: 0,
+                    key: 0,
+                    title: "组合预测",
+                    methods: [
+                        {
+                            id: 0,
+                            pid: 1,
+                            title: "算法一",
+                            need_data: 3,
+                            check_method: 'yucezu',
+                            type: 1,
+                            result_type: ['checkBigSmall', 'checkDanShuang'],
+                            url: "http://www.dange.la/1719.htm",
+                            mark: '',
+                            su_do: function (re1, re2, re3) {
+                                //
+                                re1.code = re1.code.toString();
+                                re2.code = re2.code.toString();
+                                re3.code = re3.code.toString();
+                                var v1 = re1.one + re2.one + re3.one + re3.three;
+                                var v2 = re2.three + re3.two + re3.three;
+                                var v3 = re1.one + re2.one + re2.three;
+                                v1 += '';
+                                v2 += '';
+                                v3 += '';
+                                console.log("预测组合算法-算法1:" + v1 + "|" + v2 + "|" + v3);
+                                return parseInt(v1.substr(v1.length - 1, 1)) + parseInt(v2.substr(v2.length - 1, 1)) + parseInt(v3.substr(v3.length - 1, 1));
+
+                            },
+                        },
+                        {
+                            id: 1,
+                            pid: 0,
+                            title: "算法2",
+                            need_data: 3,
+                            check_method: 'yucezu',
+                            type: 1,
+                            url: "http://www.dange.la/1726.htm",
+                            mark: '',
+                            result_type: ['checkBigSmall', 'checkDanShuang'],
+                            su_do: function (re1, re2, re3) {
+                                //
+                                re1.code = re1.code.toString();
+                                re2.code = re2.code.toString();
+                                re3.code = re3.code.toString();
+                                var v1 = re1.three + re2.two + re3.one + re3.three;
+                                v1 += '';
+                                console.log("预测组合算法-算法2:" + v1);
+                                return parseInt(v1);
+                            },
+                        },
+                        {
+                            id: 2,
+                            pid: 0,
+                            title: "算法3",
+                            url: "http://www.dange.la/1705.htm",
+                            mark: '',
+                            need_data: 3,
+                            check_method: 'yucezu',
+                            type: 1,
+                            result_type: ['checkBigSmall', 'checkDanShuang'],
+                            su_do: function (re1, re2, re3) {
+                                re1.code = re1.code.toString();
+                                re2.code = re2.code.toString();
+                                re3.code = re3.code.toString();
+                                var v1 = re1.three + re2.two + re3.one + re3.three;
+                                v1 += '';
+                                console.log("预测组合算法-算法3:" + v1);
+                                return parseInt(v1);
+                            },
+                        },
+                    ]
+                },
+                {
+                    id: 1,
+                    key: 1,
+                    title: "大小预测",
+                    methods: [
+                        {
+                            id: 0,
+                            pid: 1,
+                            title: "算法一",
+                            url: "http://www.dange.la/1838.htm",
+                            mark: '',
+                            need_data: 3,
+                            check_method: 'real_check',
+                            type: 1,
+                            result_type: ['checkBigSmall'],
+                            su_do: function (re1, re2, re3) {
+                                //
+                                var v1 = re1.one + re1.two + re2.one;
+                                var v2 = re2.three + re3.two + re3.three;
+                                v1 += "";
+                                v2 += "";
+                                console.log("算法1:" + v1 + "|" + v2);
+                                return parseInt(v1.substr(v1.length - 1, 1)) + parseInt(v2.substr(v2.length - 1, 1));
+                            },
+                        },
+                        {
+                            id: 1,
+                            pid: 1,
+                            title: "算法2",
+                            url: "http://www.dange.la/1510.htm",
+                            mark: '',
+                            need_data: 3,
+                            check_method: 'real_check',
+                            type: 1,
+                            result_type: ['checkBigSmall'],
+                            su_do: function (re1, re2, re3) {
+                                //
+                                re1.code = re1.code.toString();
+                                re2.code = re2.code.toString();
+                                re3.code = re3.code.toString();
+                                var red = re2.one + re3.one + re3.three;
+                                console.log(red);
+                                var f = parseInt(re1.code.substr(re1.code.length - 1, 1)) + parseInt(re2.code.substr(re2.code.length - 1, 1));
+                                var bl = re1.one + re2.three + re3.two;
+                                console.log("算法2:" + red + "|" + f + "|" + bl);
+                                bl += '';
+                                f += '';
+                                red += '';
+                                return parseInt(red.substr(red.length - 1, 1)) + parseInt(f.substr(f.length - 1, 1)) + parseInt(bl.substr(bl.length - 1, 1));
+                            },
+                        },
+                        {
+                            id: 2,
+                            pid: 1,
+                            title: "算法3",
+                            url: "http://www.dange.la/1591.htm",
+                            mark: '',
+                            need_data: 3,
+                            type: 1,
+                            check_method: 'real_check',
+                            result_type: ['checkBigSmall'],
+                            su_do: function (re1, re2, re3) {
+                                re1.code = re1.code.toString();
+                                re2.code = re2.code.toString();
+                                re3.code = re3.code.toString();
+                                var v1 = re2.one + re2.two + re3.two;
+                                var v2 = re2.two + re3.two + re3.three;
+                                var v3 = parseInt(re2.code.substr(re2.code.length - 1, 1)) + re3.three + parseInt(re3.code.substr(re3.code.length - 1, 1));
+                                v1 += '';
+                                v2 += '';
+                                v3 += '';
+                                console.log("算法3:" + v1 + "|" + v2 + "|" + v3);
+                                return parseInt(v1.substr(v1.length - 1, 1)) + parseInt(v2.substr(v2.length - 1, 1)) + parseInt(v3.substr(v3.length - 1, 1));
+                            },
+                        },
+                    ]
+                },
+                {
+                    id: 2,
+                    key: 2,
+                    title: "单双预测",
+                    methods: [
+                        {
+                            id: 0,
+                            pid: 2,
+                            title: "算法一",
+                            url: "http://www.dange.la/1726.htm",
+                            mark: '',
+                            check_method: 'real_check',
+                            need_data: 3,
+                            type: 1,
+                            result_type: ['checkDanShuang'],
+                            su_do: function (re1, re2, re3) {
+                                //
+                                re1.code = re1.code.toString();
+                                re2.code = re2.code.toString();
+                                re3.code = re3.code.toString();
+                                var v1 = re1.three + re2.two + re3.one + re3.three;
+                                v1 += '';
+                                console.log("单双算法-算法1:" + v1);
+                                return parseInt(v1);
+                            },
+                        },
+                        {
+                            id: 1,
+                            pid: 2,
+                            title: "算法2",
+                            url: "http://www.dange.la/1719.htm",
+                            mark: '',
+                            need_data: 3,
+                            type: 1,
+                            check_method: 'real_check',
+                            result_type: ['checkDanShuang'],
+                            su_do: function (re1, re2, re3) {
+                                //
+                                re1.code = re1.code.toString();
+                                re2.code = re2.code.toString();
+                                re3.code = re3.code.toString();
+                                var v1 = re1.one + re2.one + re3.one + re3.three;
+                                var v2 = re2.three + re3.two + re3.three;
+                                var v3 = re1.one + re2.one + re2.three;
+                                v1 += '';
+                                v2 += '';
+                                v3 += '';
+                                console.log("单双算法-算法2:" + v1 + "|" + v2 + "|" + v3);
+                                return parseInt(v1.substr(v1.length - 1, 1)) + parseInt(v2.substr(v2.length - 1, 1)) + parseInt(v3.substr(v3.length - 1, 1));
+                            },
+                        },
+                        {
+                            id: 2,
+                            pid: 2,
+                            title: "算法3",
+                            url: "http://www.dange.la/1705.htm",
+                            mark: '',
+                            need_data: 3,
+                            type: 1,
+                            check_method: 'real_check',
+                            result_type: ['checkDanShuang'],
+                            su_do: function (re1, re2, re3) {
+                                re1.code = re1.code.toString();
+                                re2.code = re2.code.toString();
+                                re3.code = re3.code.toString();
+                                var v1 = re1.three + re2.two + re3.one + re3.three;
+                                v1 += '';
+                                console.log("单双算法-算法3:" + v1);
+                                return parseInt(v1);
+                            },
+                        },
+                    ]
+                },
+                {
+                    id: 3,
+                    key: 3,
+                    title: "杀组预测",
+                    methods: [
+                        {
+                            id: 0,
+                            pid: 2,
+                            title: "算法一",
+                            url: "http://www.dange.la/1496.htm",
+                            mark: '',
+                            check_method: 'shazu',
+                            need_data: 1,
+                            type: 5,
+                            result_type: ['shaArr'],
+                            su_do: function (re5) {
+                                return parseInt(re5.code);
+                            },
+                        },
+                        {
+                            id: 1,
+                            pid: 2,
+                            title: "算法2",
+                            url: "http://www.dange.la/1371.htm",
+                            mark: '',
+                            check_method: 'shazu',
+                            need_data: 3,
+                            type: 1,
+                            result_type: ['shaArr'],
+                            su_do: function (re1, re2, re3) {
+                                //
+                                re1.code = re1.code.toString();
+                                re2.code = re2.code.toString();
+                                re3.code = re3.code.toString();
+
+                                //v1
+                                var v1 = re1.one + re2.two + parseInt(re3.code.substr(re3.code.length - 1, 1));
+                                var v2 = re1.two + re2.three + re3.one;
+                                var v3 = re2.one + re3.two + re3.three;
+
+                                v1 += '';
+                                v2 += '';
+                                v3 += '';
+
+                                v1 = v1.substr(v1.length - 1, 1);
+                                v2 = v2.substr(v2.length - 1, 1);
+                                v3 = v3.substr(v3.length - 1, 1);
+                                console.log("杀组算法-算法2:" + v1 + "|" + v2 + "|" + v3);
+                                return parseInt(v1) + parseInt(v2) + parseInt(v3);
+                            },
+                        },
+                        {
+                            id: 2,
+                            pid: 3,
+                            title: "算法3",
+                            url: "http://www.dange.la/1874.htm",
+                            mark: '',
+                            need_data: 3,
+                            check_method: 'shazu',
+                            type: 1,
+                            result_type: ['shaArr_v2'],
+                            su_do: function (re1, re2, re3) {
+                                re1.code = re1.code.toString();
+                                re2.code = re2.code.toString();
+                                re3.code = re3.code.toString();
+//                                re1.code = parseInt(re1.code);
+//                                re2.code = parseInt(re2.code);
+//                                re3.code = parseInt(re3.code);
+
+                                var v1 = parseInt(re1.code.substr(0, 1)) +
+                                    parseInt(re2.code.substr(re2.code.length - 1, 1)) +
+                                    parseInt(re3.code.substr(re3.code.length - 1, 1));
+
+
+                                console.log("杀组算法-算法3:" + v1);
+                                return v1;
+                            },
+                        },
+                    ]
+                },
+                {
+                    id: 4,
+                    key: 4,
+                    title: "杀尾预测",
+                    methods: [
+                        {
+                            id: 0,
+                            pid: 4,
+                            title: "算法一",
+                            url: "http://www.dange.la/1841.htm",
+                            mark: '',
+                            need_data: 3,
+                            check_method: 'shawei',
+                            type: 1,
+                            result_type: ['shaW'],
+                            su_do: function (re1, re2, re3) {
+                                //
+                                re1.code = re1.code.toString();
+                                re2.code = re2.code.toString();
+                                re3.code = re3.code.toString();
+                                var v1 = re1.one + re2.two + re3.three;
+                                var v2 = re3.one + re2.two + re1.three;
+                                v1 += '';
+                                v2 += '';
+                                v1 = v1.substr(v1.length - 1, 1);
+                                v2 = v2.substr(v2.length - 1, 1);
+                                console.log("杀尾算法-算法1:" + v1);
+                                return parseInt(v1);
+                            },
+                        },
+                        {
+                            id: 1,
+                            pid: 4,
+                            title: "算法2",
+                            url: "http://www.dange.la/1841.htm",
+                            mark: '',
+                            check_method: 'shawei',
+                            need_data: 3,
+                            type: 1,
+                            result_type: ['shaW'],
+                            su_do: function (re1, re2, re3) {
+                                //
+                                re1.code = re1.code.toString();
+                                re2.code = re2.code.toString();
+                                re3.code = re3.code.toString();
+                                var v1 = re1.one + re2.two + re3.three;
+                                var v2 = re3.one + re2.two + re1.three;
+                                v1 += '';
+                                v2 += '';
+                                v1 = v1.substr(v1.length - 1, 1);
+                                v2 = v2.substr(v2.length - 1, 1);
+                                console.log("杀尾算法-算法1:" + v2);
+                                return parseInt(v2);
+                            },
+                        },
+                        {
+                            id: 2,
+                            pid: 4,
+                            title: "算法3",
+                            url: "http://www.dange.la/1847.htm",
+                            mark: '',
+                            check_method: 'shawei',
+                            need_data: 3,
+                            type: 1,
+                            result_type: ['shaW'],
+                            su_do: function (re1, re2, re3) {
+                                re1.code = re1.code.toString();
+                                re2.code = re2.code.toString();
+                                re3.code = re3.code.toString();
+                                var v1 = re1.one + re2.two + re3.three;
+                                var v2 = re3.one + re2.two + re1.three;
+                                v1 += '';
+                                v2 += '';
+                                v1 = v1.substr(v1.length - 1, 1);
+                                console.log("单双算法-算法3:" + v1);
+                                return parseInt(v1);
+                            },
+                        },
+                    ]
+                },
+                {
+                    id: 5,
+                    key: 5,
+                    title: "三余预测",
+                    methods: [
+                        {
+                            id: 0,
+                            pid: 2,
+                            title: "算法一",
+                            url: "http://www.dange.la/1112.htm",
+                            mark: '',
+                            need_data: 5,
+                            check_method: 'sanyu',
+                            type: 6,
+                            result_type: ['yuBack'],
+                            su_do: function (re1, re2, re3, re4, re5) {
+                                //
+                                re1.code = re1.code.toString();
+                                re2.code = re2.code.toString();
+                                re3.code = re3.code.toString();
+                                re4.code = re4.code.toString();
+                                re5.code = re5.code.toString();
+                                var v1 = 0;
+
+                                v1 += parseInt(re1.code.substr(re1.code.length - 1, 1));
+                                v1 += parseInt(re3.code.substr(re3.code.length - 1, 1));
+                                v1 += parseInt(re5.code.substr(re5.code.length - 1, 1));
+                                v1 -= parseInt(re2.code.substr(re2.code.length - 1, 1));
+                                v1 -= parseInt(re4.code.substr(re4.code.length - 1, 1));
+
+                                var v = (28 - v1) % 3;
+                                console.log("三余算法-算法1:" + v);
+                                return parseInt(v);
+                            },
+                        },
+                        {
+                            id: 1,
+                            pid: 2,
+                            title: "算法2",
+                            url: "http://www.dange.la/179.htm",
+                            mark: '',
+                            need_data: 3,
+                            check_method: 'sanyu',
+                            type: 1,
+                            result_type: ['yuBack'],
+                            su_do: function (re1, re2, re3) {
+                                //
+                                re1.code = re1.code.toString();
+                                re2.code = re2.code.toString();
+                                re3.code = re3.code.toString();
+                                var v1 = 0;
+                                v1 += parseInt(re1.code.substr(re1.code.length - 1, 1));
+                                v1 += parseInt(re2.code.substr(0, 1));
+                                v1 += parseInt(re3.code.substr(re3.code.length - 1, 1));
+                                v1 += '';
+
+                                var v = (28 - v1) % 3;
+                                console.log("三余算法-算法2:" + v);
+                                return parseInt(v);
+                            },
+                        },
+                        {
+                            id: 2,
+                            pid: 2,
+                            title: "算法3",
+                            url: "http://www.dange.la/233.htm",
+                            mark: '',
+                            need_data: 3,
+                            check_method: 'sanyu',
+                            type: 1,
+                            result_type: ['yuBack'],
+                            su_do: function (re1, re2, re3) {
+                                re1.code = re1.code.toString();
+                                re2.code = re2.code.toString();
+                                re3.code = re3.code.toString();
+                                var v1 = parseInt(re1.code) % 3;
+                                var v = 0;
+                                if (v1 === 0) {
+                                    v = parseInt(re1.code) % 3;
+                                } else if (v1 === 1) {
+                                    v = parseInt(re2.code) % 3;
+                                } else if (v1 === 2) {
+                                    v = parseInt(re3.code) % 3;
+                                }
+                                console.log("三余算法-算法3:" + v);
+                                return parseInt(v);
+                            },
+                        },
+                    ]
+                },
+            ],
+        };
+
+        var vm = new Vue({
+            data: {
+                data_type: formType,
+                data_list: [],
+                kind: formType,
+                title: Home.api_groups[formType].title,
+                ms: 0,
+                sf: 0,
+                ms_group: Home.ms,
+                result_method: 0,
+            },
+            methods: {
+                setSF: function (v) {
+                    this.sf = v;
+                    this.getApiData();
+                },
+                setMs: function (v) {
+                    this.ms = v;
+                    this.getApiData();
+                },
+                setKind: function (kind) {
+                    this.kind = kind;
+                    this.title = Home.api_groups[kind].title;
+                    this.getApiData();
+                },
+                getApiData: function () {
+
+                    var _self = this;
+                    var layerLoadIndex = layer.open({type: 2, shadeClose: false});
+
+                    $.get("./server/28-data-server.php?name=" + Home.api_groups[_self.kind].name, function (ret) {
+                        _self.data_list = [];
+
+                        var new_data_count = ret.data.length;
+                        var ey_categories = [], ey_data = [];
+                        var current_new = parseInt(ret.data[0].issue) + 1;
+
+                        //新期数
+                        _self.data_list.push({
+                            issue: current_new,
+                            code: "",
+                            yc: "--- 开奖请手动刷新 ---"
+                        });
+
+                        ret.data.forEach(function (item, key) {
+                            //item.codes = item.codes.split("+");
+
+                            item.one = parseInt(item.one);
+                            item.two = parseInt(item.two);
+                            item.three = parseInt(item.three);
+                            item.code = parseInt(item.code);
+
+
+//                        //计算结果类型
+//                        item.code_msg = Home.result_methods[_self.ms_group[_self.ms].methods[_self.sf].result_type](item.code);
+//                        //预测结果类型
+//                        item.yc_code_msg = Home.result_methods[_self.ms_group[_self.ms].methods[_self.sf].result_type](item.code);
+
+                            _self.data_list.push(item);
+                            ey_categories.push(parseInt(item.issue));
+                            ey_data.push(parseInt(item.code));
+                        });
+
+
+                        ey_categories.reverse();
+                        ey_data.reverse();
+
+                        $("#data").highcharts({
+                            chart: {
+                                backgroundColor: ""
+                            },
+                            title: {
+                                text: null
+                            },
+                            subtitle: {
+                                enabled: false
+                            },
+                            legend: {
+                                enabled: false
+                            },
+                            credits: {
+                                enabled: false
+                            },
+                            tooltip: {
+                                crosshairs: [true]
+                            },
+                            yAxis: {
+                                title: {
+                                    text: null
+                                },
+                                min: 0,
+                                max: 30
+                            },
+                            xAxis: {
+                                categories: ey_categories
+                            },
+                            series: [{
+                                name: "开奖结果",
+                                data: ey_data
+                            }]
+                        });
+
+
+                        //重新计算预测
+                        console.log("获取数据长度：" + new_data_count);
+
+                        _self.data_list.forEach(function (item, key) {
+                            if (new_data_count <= (key + 4)) {
+                                item.yc_code_msg = "--已发财--";
+                                return;
+                            }
+                            _self.init_yuce(key);
+                        });
+
+                        layer.close(layerLoadIndex);
+
+                    }, "Json")
+                },
+                //计算预测结果
+                init_yuce: function (start_v) {
+                    //结果值
+                    console.log("计算预测：" + start_v + ",期数：" + vm.data_list[start_v].issue);
+                    var _self = this;
+                    var tmp = Home.ms[vm.ms].methods[vm.sf];
+                    var current_d = vm.data_list[start_v];
+                    var yc_code = 0;
+                    var yc_msg = '';
+                    //类型1 3个数字
+                    if (tmp.type === 1) {
+                        yc_code = Home.ms[vm.ms].methods[vm.sf].su_do(vm.data_list[start_v + 1], vm.data_list[start_v + 2], vm.data_list[start_v + 3]);
+                    }
+                    //第5，1个数字
+                    if (tmp.type === 5) {
+                        yc_code = Home.ms[vm.ms].methods[vm.sf].su_do(vm.data_list[start_v + 5]);
+                    }
+                    //
+                    if (tmp.type === 6) {
+                        yc_code = Home.ms[vm.ms].methods[vm.sf].su_do(vm.data_list[start_v + 1], vm.data_list[start_v + 2], vm.data_list[start_v + 3]
+                            , vm.data_list[start_v + 4], vm.data_list[start_v + 5]);
+                    }
+
+
+                    //计算真预测结果
+                    var needMethods = _self.ms_group[_self.ms].methods[_self.sf].result_type;
+                    needMethods.forEach(function (item, key) {
+                        if (key > 0) {
+                            yc_msg += "   |  ";
+                        }
+                        yc_msg += Home.result_methods[item](yc_code);
+                    });
+
+                    //计算预测结果
+                    if (current_d.code) {
+                        var tmp_real_msg = "";
+                        needMethods.forEach(function (item, key) {
+                            if (key > 0) {
+                                tmp_real_msg += "   |  ";
+                            }
+                            //结算结果
+                            tmp_real_msg += Home.result_methods[item](current_d.code);
+                        });
+
+
+                        vm.data_list[start_v].result_yc = Home.check_result[Home.ms[vm.ms].methods[vm.sf].check_method](yc_msg, tmp_real_msg, current_d.code, yc_code);
+                    }
+                    //写入txt
+                    vm.data_list[start_v].yc_code_msg = yc_msg;
+                },
+                watcher_timer: function () {
+                    setInterval(function () {
+                        //获取新数据
+
+                    }, 1000);
+                }
+            },
+            mounted: function () {
+                //初始化数据
+                var _self = this;
+                _self.getApiData();
+                _self.watcher_timer();
+//            setInterval(function () {
+//                //
+//                _self.getApiData();
+//            }, 1000);
+
+            }
+
+        }).$mount("#my-app");
+    })(window);
+
+</script>
+
+</body>
+</html>

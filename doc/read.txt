@@ -1,0 +1,10 @@
+
+http://www.pc28yc.com/pre.php?kind=4
+http://www.28yuce.com/pc28.php
+
+
+//28
+http://api.dabai28.com/28api.php?type=json&name=pc28&token=xggd
+
+
+http://api.dabai28.com/28api.php?type=json&name=jnd28&token=xggd
