@@ -19,14 +19,17 @@ $http_header = array(
     'Host' => 'api.dabai28.com',
 );
 $data = HttpHelper::http("http://api.dabai28.com/api28.php", $arr, "GET", $http_header);
+
 $data = strval($data);
 $data = str_replace("﻿<pre style=\"font-size:13px;\">", "", $data);
 $data = str_replace("</pre>", "", $data);
 $data = str_replace("}{", "},{", $data);
 $data = str_replace("},]", "}]", $data);
-$data = preg_replace("/[\n\t\r]/", "", $data);
+$data = preg_replace("/[\n\t\r ]/", "", $data);
 
+$data = "[{$data}]";
 $data = json_decode($data, true);
+
 if (!$data) {
     $json['code'] = 204;
 } else {
