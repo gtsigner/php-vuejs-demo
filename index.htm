@@ -223,16 +223,19 @@
                 //v1 yc,v2真实,real1,yc_code
                 //预测组
                 yucezu: function (v1, v2, real1, real2) {
-
+                    console.log(v1);
+                    console.log(v2);
+                    console.log(v1);
+                    console.log(v1);
                     var arr_1 = v1.split("|");
                     var arr_2 = v2.split("|");
                     var ret = 0;
                     arr_1.forEach(function (item) {
-                        if (v2.indexOf(item)) {
+                        if (v2.indexOf(item)>=0) {
                             ret = 1;
                         }
                     });
-
+                    console.log(ret);
                     return ret;
                 },
                 shazu: function (v1, v2, real1, real2) {
@@ -902,10 +905,10 @@
                             }
                             //结算结果
                             tmp_real_msg += Home.result_methods[item](current_d.code);
+
                         });
-
-
                         vm.data_list[start_v].result_yc = Home.check_result[Home.ms[vm.ms].methods[vm.sf].check_method](yc_msg, tmp_real_msg, current_d.code, yc_code);
+                        console.log(vm.data_list[start_v].result_yc);
                     }
                     //写入txt
                     vm.data_list[start_v].yc_code_msg = yc_msg;
