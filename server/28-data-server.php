@@ -28,6 +28,7 @@ $data = str_replace("},]", "}]", $data);
 $data = preg_replace("/[\n\t\r ]/", "", $data);
 
 $data = "[{$data}]";
+
 $data = json_decode($data, true);
 
 if (!$data) {

@@ -790,21 +790,16 @@
                             code: "",
                             yc: "--- 开奖请手动刷新 ---"
                         });
-
                         ret.data.forEach(function (item, key) {
                             //item.codes = item.codes.split("+");
-
                             item.one = parseInt(item.one);
                             item.two = parseInt(item.two);
                             item.three = parseInt(item.three);
                             item.code = parseInt(item.code);
-
-
 //                        //计算结果类型
 //                        item.code_msg = Home.result_methods[_self.ms_group[_self.ms].methods[_self.sf].result_type](item.code);
 //                        //预测结果类型
 //                        item.yc_code_msg = Home.result_methods[_self.ms_group[_self.ms].methods[_self.sf].result_type](item.code);
-
                             _self.data_list.push(item);
                             ey_categories.push(parseInt(item.issue));
                             ey_data.push(parseInt(item.code));
